@@ -26,3 +26,8 @@ $ ./compass_watch.py
 and you will be able to modify every `.sass` or `.scss` inside your compass projects with real-time compiling in css.
 
 This allows you to have different target directories or configurations between multiple applications that use compass 
+
+Requirements
+----
+* Django
+* Compass
