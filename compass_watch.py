@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-import subprocess
 import settings
+from subprocess import Popen, PIPE, STDOUT
 from django.core.management  import setup_environ
 setup_environ(settings)
 
@@ -15,9 +15,11 @@ print "%s directories to watch..." % (len(settings.COMPASS_DIRS),)
 for compass_folder in settings.COMPASS_DIRS:
 	if ('config.rb' in os.listdir(compass_folder)):
  		command = "compass watch %s &" % (compass_folder,)
-		subprocess.Popen(command, shell=True)
-		if True:
+		compass_process = Popen(command, shell=True, executable=None, stdin=None, stdout=None, stderr=PIPE)
+		error_list = ""
+		for line in compass_process.stderr:
+			error_list += line.rstrip("\n")
+		if error_list == "":
 			print "watching directory %s ..." % (compass_folder,)
 		else:
-			print "error when trying to watch directory %s: %s" % (compass_folder, output)
-
+			print "error(s) when trying to watch directory %s:\n %s" % (compass_folder, error_list)
